@@ -24,7 +24,7 @@
 
 ---
 
-## <a name="установка"></a>Установка <a href="#">⬆️ Наверх</a>
+## <a name="установка"></a>Установка
 
 ```bash
 pip install spion
@@ -144,12 +144,12 @@ def complex_operation(self, data):
 > 💬 **Хочешь повлиять на синтаксис?** — [открывай issue](https://github.com/leonhadouken/spion/issues) на GitHub, обсудим!
 
 ---
-## <a name="требования"></a>Требования <a href="#spion">⬆️ Наверх</a>
+## <a name="требования"></a>Требования
 - Python 3.7+
 - Любовь к чистому коду 💙
 ---
 
-## <a name="лицензия"></a>Лицензия <a href="#spion">⬆️ Наверх</a>
+## <a name="лицензия"></a>Лицензия
 
 MIT © [Ivan Shaikov](https://github.com/leonhadouken)
 

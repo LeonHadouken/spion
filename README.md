@@ -38,7 +38,7 @@ pip install git+https://github.com/yourname/spion.git
 
 ---
 
-## <a name="для-тех-кто-ценит-простоту"></a>Для тех, кто ценит простоту <a href="#spion">⬆️ Наверх</a>
+## <a name="для-тех-кто-ценит-простоту"></a>Для тех, кто ценит простоту
 ```python
 from spion import log
 

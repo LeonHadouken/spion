@@ -1,28 +1,33 @@
-Вот полностью переработанное руководство с разделением всех вариантов и добавлением примеров для каждого:
+# 🔧 ПОЛНОЕ РУКОВОДСТВО ПО SPION
+
+<p align="right">
+  <a href="README.md">← Назад к README</a>
+</p>
+
+## 📋 СОДЕРЖАНИЕ
+- [1. @log() - Базовое логирование](#1-log---базовое-логирование)
+- [2. @log_call_once() - Логирование с интервалом](#2-log_call_once---логирование-с-интервалом)
+- [3. @log_user_action() - Действия пользователя](#3-log_user_action---действия-пользователя)
+- [4. @log_state_change() - Изменения состояния](#4-log_state_change---изменения-состояния)
+- [5. @log_class_relationship() - Связи между классами](#5-log_class_relationship---связи-между-классами)
+- [6. @log_method_chain() - Цепочки вызовов](#6-log_method_chain---цепочки-вызовов)
+- [7. Комбинирование декораторов](#7-комбинирование-декораторов)
+- [8. Настройка под конкретные случаи](#8-настройка-под-конкретные-случаи)
+- [9. Примеры для разных типов приложений](#9-примеры-для-разных-типов-приложений)
+- [10. Полный пример с конфигурацией](#10-полный-пример-с-конфигурацией)
 
 ---
 
-# **🔧 ПОЛНОЕ РУКОВОДСТВО ПО ДЕКОРАТОРАМ**
-
-## **📋 СОДЕРЖАНИЕ**
-1. [@log() - Базовое логирование](#1-log---базовое-логирование)
-2. [@log_call_once() - Логирование с интервалом](#2-log_call_once---логирование-с-интервалом)
-3. [@log_user_action() - Действия пользователя](#3-log_user_action---действия-пользователя)
-4. [@log_state_change() - Изменения состояния](#4-log_state_change---изменения-состояния)
-5. [@log_class_relationship() - Связи между классами](#5-log_class_relationship---связи-между-классами)
-6. [@log_method_chain() - Цепочки вызовов](#6-log_method_chain---цепочки-вызовов)
-7. [Комбинирование декораторов](#7-комбинирование-декораторов)
-8. [Настройка под конкретные случаи](#8-настройка-под-конкретные-случаи)
-9. [Примеры для разных типов приложений](#9-примеры-для-разных-типов-приложений)
-10. [Полный пример с конфигурацией](#10-полный-пример-с-конфигурацией)
-
----
-
+<a name="1-log---базовое-логирование"></a>
 ## **1. @log() - Базовое логирование**
+
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад</a>
+</p>
 
 ### **1.1. Минимальная конфигурация**
 ```python
-from debug import log
+from spion import log
 
 @log()
 def hello():
@@ -34,7 +39,7 @@ hello()
 
 ### **1.2. С уровнем логирования DEBUG**
 ```python
-from debug import log, LogLevel
+from spion import log, LogLevel
 
 @log(level=LogLevel.DEBUG)
 def add(a, b):
@@ -120,7 +125,7 @@ calc.divide(10, 2)
 
 ### **1.8. С фильтрацией повторений - ограничение по количеству**
 ```python
-from debug import log, add_rule
+from spion import log, add_rule
 
 @log()
 def api_call(endpoint):
@@ -225,13 +230,22 @@ processor.process("data.txt")
 # DEBUG: [14:30:25.123] 🟢 ◀️ FileProcessor._internal_parse -> ['line1', 'line2']
 ```
 
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад к README</a>
+</p>
+
 ---
 
+<a name="2-log_call_once---логирование-с-интервалом"></a>
 ## **2. @log_call_once() - Логирование с интервалом**
+
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад</a>
+</p>
 
 ### **2.1. Интервал 1 секунда**
 ```python
-from debug import log_call_once
+from spion import log_call_once
 import time
 
 @log_call_once(interval=1.0)
@@ -337,13 +351,22 @@ class SystemMonitor:
             time.sleep(0.1)
 ```
 
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад к README</a>
+</p>
+
 ---
 
+<a name="3-log_user_action---действия-пользователя"></a>
 ## **3. @log_user_action() - Действия пользователя**
+
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад</a>
+</p>
 
 ### **3.1. Стандартное использование с Position**
 ```python
-from debug import log_user_action
+from spion import log_user_action
 
 class Position:
     def __init__(self, row, col):
@@ -447,13 +470,22 @@ app.handle_request(req)
 # [14:30:25.123] [👤] WebApp.handle_request на Y200 (нестандартные координаты)
 ```
 
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад к README</a>
+</p>
+
 ---
 
+<a name="4-log_state_change---изменения-состояния"></a>
 ## **4. @log_state_change() - Изменения состояния**
+
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад</a>
+</p>
 
 ### **4.1. С автоматическим определением current_player**
 ```python
-from debug import log_state_change
+from spion import log_state_change
 from enum import Enum
 
 class Player(Enum):
@@ -586,13 +618,22 @@ controller.set_temperature(21)  # [14:30:25.123] [🔄] set_temperature | Ход
 controller.set_temperature(23)  # [14:30:25.123] [🔄] set_temperature | Ход: system
 ```
 
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад к README</a>
+</p>
+
 ---
 
+<a name="5-log_class_relationship---связи-между-классами"></a>
 ## **5. @log_class_relationship() - Связи между классами**
+
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад</a>
+</p>
 
 ### **5.1. Только иерархия (show_hierarchy=True, show_dependencies=False)**
 ```python
-from debug import log_class_relationship
+from spion import log_class_relationship
 
 class Animal:
     pass
@@ -782,13 +823,22 @@ square = Square(5)
 #   ↩️ Результат: NoneType
 ```
 
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад к README</a>
+</p>
+
 ---
 
+<a name="6-log_method_chain---цепочки-вызовов"></a>
 ## **6. @log_method_chain() - Цепочки вызовов**
+
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад</a>
+</p>
 
 ### **6.1. Ограниченная глубина (max_depth=2)**
 ```python
-from debug import log_method_chain
+from spion import log_method_chain
 
 @log_method_chain(max_depth=2)
 def factorial(n):
@@ -969,13 +1019,22 @@ quicksort([3, 6, 8, 10, 1, 2, 1])
 # Все вызовы будут с 🟢 вместо 🔵
 ```
 
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад к README</a>
+</p>
+
 ---
 
+<a name="7-комбинирование-декораторов"></a>
 ## **7. Комбинирование декораторов**
+
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад</a>
+</p>
 
 ### **7.1. log + log_class_relationship**
 ```python
-from debug import log, log_class_relationship
+from spion import log, log_class_relationship
 
 class DataService:
     @log(level=LogLevel.INFO)
@@ -1115,13 +1174,22 @@ test.method2()
 # [🔗] ...  (relationship)
 ```
 
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад к README</a>
+</p>
+
 ---
 
+<a name="8-настройка-под-конкретные-случаи"></a>
 ## **8. Настройка под конкретные случаи**
+
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад</a>
+</p>
 
 ### **8.1. Для продакшена - минимум логов**
 ```python
-from debug import configure, configure_filter, LogLevel
+from spion import configure, configure_filter, LogLevel
 
 def setup_production():
     """Только ошибки и предупреждения"""
@@ -1139,7 +1207,7 @@ def setup_production():
     )
     
     # Подавляем частые логи
-    from debug.filters import add_rule
+    from spion import add_rule
     add_rule("health_check", max_calls=10, time_window=3600)  # 10 раз в час
     add_rule("status", log_once=True)  # Только один раз
 
@@ -1173,7 +1241,7 @@ def setup_debug_for_parser():
     configure(min_level=LogLevel.ERROR)  # Только ошибки
     
     # А для парсера - всё подряд
-    from debug.filters import add_rule
+    from spion import add_rule
     add_rule(
         pattern="parse_",
         rule_type="call",
@@ -1187,7 +1255,7 @@ def setup_debug_for_parser():
     )
     
     # Специальные декораторы для парсера
-    from debug import log, log_method_chain
+    from spion import log, log_method_chain
     
     class Parser:
         @log(level=LogLevel.DEBUG)
@@ -1218,7 +1286,7 @@ def setup_test_logging():
 
 class TestGame(unittest.TestCase):
     def setUp(self):
-        from debug.filters import reset_filter
+        from spion import reset_filter
         reset_filter()  # Свежий фильтр для каждого теста
         setup_test_logging()
     
@@ -1252,7 +1320,7 @@ class DebugController:
             configure_filter(suppress_repetitive=True)
             
             # Показываем статистику
-            from debug.filters import get_suppression_summary
+            from spion import get_suppression_summary
             self.stats = get_suppression_summary()
             print("📊 Suppression summary:", self.stats)
             print("🔧 Debug mode OFF")
@@ -1283,13 +1351,13 @@ def setup_performance_logging():
         color_enabled=True
     )
     
-    from debug.filters import add_rule
+    from spion import add_rule
     # Логируем медленные функции
     add_rule("slow_function", max_calls=100)
     
     # Специальный декоратор для замера времени
     from functools import wraps
-    from debug import log_message, get_timestamp
+    from spion import log_message, get_timestamp
     
     def log_time(threshold=0.1):
         def decorator(func):
@@ -1374,14 +1442,23 @@ def setup_by_environment():
 setup_by_environment()
 ```
 
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад к README</a>
+</p>
+
 ---
 
+<a name="9-примеры-для-разных-типов-приложений"></a>
 ## **9. Примеры для разных типов приложений**
+
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад</a>
+</p>
 
 ### **9.1. Веб-сервер на Flask**
 ```python
 from flask import Flask, request
-from debug import log, log_call_once, log_user_action, LogLevel
+from spion import log, log_call_once, log_user_action, LogLevel
 
 app = Flask(__name__)
 
@@ -1619,7 +1696,7 @@ threading.Thread(target=server.start).start()
 ### **9.5. GUI приложение**
 ```python
 import tkinter as tk
-from debug import log, log_user_action, log_state_change
+from spion import log, log_user_action, log_state_change
 
 class TextEditor:
     def __init__(self):
@@ -1668,17 +1745,26 @@ class TextEditor:
         self.root.mainloop()
 ```
 
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад к README</a>
+</p>
+
 ---
 
+<a name="10-полный-пример-с-конфигурацией"></a>
 ## **10. Полный пример с конфигурацией**
+
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад</a>
+</p>
 
 ```python
 """
-Полный пример использования всех возможностей debug пакета
+Полный пример использования всех возможностей spion
 с реальной игрой в шашки
 """
 
-from debug import (
+from spion import (
     # Конфигурация
     configure, configure_filter, add_rule, reset_filter,
     get_suppression_summary,
@@ -2061,9 +2147,17 @@ if __name__ == "__main__":
     game.run()
 ```
 
+<p align="right">
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a> • <a href="README.md">← Назад к README</a>
+</p>
+
 ---
 
 ### **Ключевые выводы:**
+
+<p align="right">
+  <a href="README.md">← Вернуться в README</a>
+</p>
 
 1. **Каждый декоратор решает свою задачу**:
    - `@log` - базовое логирование
@@ -2080,3 +2174,10 @@ if __name__ == "__main__":
 4. **Фильтрация** помогает не захламлять лог
 
 5. **Статистика** (`get_suppression_summary()`) показывает эффективность фильтрации
+
+---
+
+<p align="center">
+  <a href="README.md">← Назад к README</a> •
+  <a href="#-полное-руководство-по-spion">↑ К содержанию</a>
+</p>

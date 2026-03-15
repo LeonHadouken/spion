@@ -21,7 +21,7 @@
   <img src="https://img.shields.io/badge/python-3.7%2B-green?style=for-the-badge" alt="Python">
   <img src="https://img.shields.io/badge/license-MIT-orange?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/status-stable-brightgreen?style=for-the-badge" alt="Status">
-  <img src="https://img.shields.io/badge/tests-172%20passed-success?style=for-the-badge" alt="Tests">
+  <img src="https://img.shields.io/badge/tests-312%20passed-success?style=for-the-badge" alt="Tests">
 </p>
 
 

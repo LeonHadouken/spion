@@ -148,3 +148,23 @@ data/
 # OS
 .DS_Store
 Thumbs.db
+
+# ===== СПЕЦИФИЧНЫЕ ДЛЯ ПРОЕКТА SPION =====
+# Coverage
+.coverage
+htmlcov/
+
+# Virtual Environment
+venv/
+
+# Тестовые и временные файлы
+demon_stration.py
+log.txt
+
+# Pytest cache
+.pytest_cache/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

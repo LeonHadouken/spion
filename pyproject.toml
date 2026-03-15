@@ -4,13 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spion"
-version = "0.1.0" 
-  { name="Ivan Shaikov", email="твой-email@leonhadouken@gmail.com" }, # Укажи свой email
+version = "0.1.0"
+authors = [
+    { name = "Ivan Shaikov", email = "твой-email@example.com" }
 ]
 description = "sugar loggin' — Видит всё, не мешает ничему."
 readme = "README.md"
 requires-python = ">=3.7"
-license-files = ["LICENSE"]
+license = { text = "MIT" }
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.7",
@@ -23,15 +24,38 @@ classifiers = [
     "Operating System :: OS Independent",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: System :: Logging",
+    "Topic :: System :: Logging"
 ]
 
 [project.urls]
 Homepage = "https://github.com/LeonHadouken/spion"
 Repository = "https://github.com/LeonHadouken/spion.git"
-Issues = "https://github.com/LeonHadouken/spion/issues"
 
-# Эта секция говорит setuptools, где искать код
 [tool.setuptools.packages.find]
-where = ["."]  # Ищем пакеты в текущей директории
-include = ["spion*"] # Включаем все, что начинается с "spion"
+where = ["."]
+include = ["spion*"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "tests"
+]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+
+[tool.coverage.run]
+source = ["spion"]
+omit = ["*/tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if __name__ == .__main__.:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if False:"
+]

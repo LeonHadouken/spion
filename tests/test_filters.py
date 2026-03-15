@@ -145,5 +145,9 @@ class TestConfigureFilter:
             max_repetitions=10,
         )
 
-        # Не можем напрямую проверить атрибуты, но можем проверить поведение
-        assert should_log_call("test", "call") is True
+        # Вместо проверки через should_log_call (который может возвращать True)
+        # проверяем напрямую атрибуты фильтра
+        from spion.decorators.core.filtering import _default_filter
+
+        assert _default_filter.suppress_repetitive is False
+        assert _default_filter.max_repetitions == 10

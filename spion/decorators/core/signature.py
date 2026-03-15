@@ -131,5 +131,6 @@ class SignatureFormatter:
         Returns:
             str: Отформатированное значение
         """
-        from ...utils import format_value
+        # ИСПРАВЛЕНО: было from ...utils import format_value
+        from .utils import format_value
         return format_value(value, max_len=self.max_str_len)

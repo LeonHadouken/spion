@@ -1,4 +1,4 @@
-# spion/decorators/base/decorator.py (исправленный)
+# spion/decorators/base/decorator.py (ИСПРАВЛЕННАЯ - без дубликатов)
 """
 Базовый класс для декораторов логирования.
 """
@@ -13,7 +13,7 @@ from ..core.stats import CallStats
 from ..core.signature import SignatureFormatter
 from ..core.context import CallContext
 from ..core.filtering import should_log_call
-from ..core.utils import log_message, get_exception_traceback  # импорт из core.utils
+from ..core.utils import log_message, get_exception_traceback
 
 
 class LoggerDecorator:
@@ -154,23 +154,6 @@ class LoggerDecorator:
             context.timestamp_str
         )
 
-    def _after(self, result: Any, context: CallContext, signature: str) -> None:
-        """
-        Действия после вызова функции.
-        Переопределяется в дочерних классах.
-        """
-        pass
-
-    def _error(self, error: Exception, context: CallContext, signature: str) -> None:
-        """
-        Действия при ошибке.
-        """
-        log_message(
-            LogLevel.ERROR,
-            f"[❌] {signature}: {error} (call #{context.call_id})",
-            context.timestamp_str
-        )
-
         if self.level == LogLevel.DEBUG:
             log_message(
                 LogLevel.DEBUG,
@@ -197,3 +180,4 @@ class LoggerDecorator:
     def __repr__(self) -> str:
         return (f"<{self.__class__.__name__}(level='{self.level}', "
                 f"func={getattr(self.func, '__name__', 'None')})>")
+

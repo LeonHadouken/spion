@@ -13,6 +13,84 @@ from tests.conftest import SampleClass, clean_ansi
 class TestLoggerDecorator:
     """Тесты базового класса LoggerDecorator."""
 
+    def test_copy_metadata_with_dict(self):
+        """Тест копирования __dict__ функции."""
+
+        def func():
+            pass
+
+        func.custom_attr = "test_value"
+        func.another_attr = 42
+
+        decorator = LoggerDecorator()
+        decorator._copy_function_metadata(func)
+
+        assert hasattr(decorator, 'custom_attr')
+        assert hasattr(decorator, 'another_attr')
+
+    def test_should_measure_time_false(self):
+        """Тест _should_measure_time для неподходящих уровней."""
+        for level in [LogLevel.WARNING, LogLevel.ERROR, LogLevel.CRITICAL]:
+            decorator = LoggerDecorator(level=level)
+            assert decorator._should_measure_time() is False
+
+    def test_error_with_debug_traceback(self, capsys):
+        """Тест вывода traceback при ошибке в DEBUG режиме."""
+        decorator = LoggerDecorator(level=LogLevel.DEBUG)
+
+        @decorator
+        def failing():
+            raise ValueError("Test error")
+
+        with pytest.raises(ValueError):
+            failing()
+        # Проверяем что не падает
+        capsys.readouterr()
+
+    def test_get_set_descriptor(self):
+        """Тест дескрипторных методов."""
+        decorator = LoggerDecorator()
+
+        class TestClass:
+            method = decorator
+
+        obj = TestClass()
+        bound = obj.method
+        assert bound is not None
+
+    def test_repr_without_func(self):
+        """Тест __repr__ когда func не задана."""
+        decorator = LoggerDecorator()
+        repr_str = repr(decorator)
+        assert "LoggerDecorator" in repr_str
+        assert "func=None" in repr_str or "None" in repr_str
+
+    def test_stats(self):
+        """Тест статистики вызовов."""
+
+        @log()
+        def f():
+            return 42
+
+        f()
+        stats = f.__logger_decorator__.get_stats()
+        assert stats['call_count'] == 1
+
+        f.__logger_decorator__.reset_stats()
+        stats = f.__logger_decorator__.get_stats()
+        assert stats['call_count'] == 0
+
+    def test_getset_descriptor_class_access(self):
+        """Тест доступа к дескриптору через класс."""
+        decorator = log()
+
+        class Test:
+            method = decorator
+
+        bound = Test.method
+        assert bound is not None
+
+
     def test_decorator_initialization(self):
         """Проверяем инициализацию декоратора."""
         decorator = LoggerDecorator(level=LogLevel.INFO, message="test message")
@@ -234,4 +312,105 @@ class TestLoggerDecoratorInheritance:
             pass
 
         test_func()
-        assert decorator.call_type_used == "custom_type"
+        assert decorator.call_type_used == "custom_type"# tests/test_decorators/test_decorator.py
+"""
+Комплексные тесты для LoggerDecorator.
+Объединены все тесты из test_decorator_coverage.py и test_decorator_final.py
+"""
+
+import pytest
+import time
+from spion.decorators.base.decorator import LoggerDecorator
+from spion.config import LogLevel
+from spion import log
+from tests.conftest import clean_ansi
+
+
+class TestDecoratorCoverage:
+    """Тесты для покрытия строк base/decorator.py"""
+
+    def test_decorator_copy_metadata_with_dict(self):
+        """Тест копирования __dict__ функции."""
+
+        def func():
+            pass
+
+        func.custom_attr = "test_value"
+        func.another_attr = 42
+
+        decorator = LoggerDecorator()
+        decorator._copy_function_metadata(func)
+
+        assert hasattr(decorator, 'custom_attr')
+        assert hasattr(decorator, 'another_attr')
+
+    def test_decorator_should_measure_time_false(self):
+        """Тест _should_measure_time для неподходящих уровней."""
+
+        for level in [LogLevel.WARNING, LogLevel.ERROR, LogLevel.CRITICAL]:
+            decorator = LoggerDecorator(level=level)
+            assert decorator._should_measure_time() is False
+
+    def test_decorator_error_with_debug_traceback(self, capsys):
+        """Тест вывода traceback при ошибке в DEBUG режиме."""
+
+        decorator = LoggerDecorator(level=LogLevel.DEBUG)
+
+        @decorator
+        def failing():
+            raise ValueError("Test error")
+
+        with pytest.raises(ValueError):
+            failing()
+
+        # Проверяем что не падает при выводе traceback
+        captured = capsys.readouterr()
+
+    def test_decorator_get_set_descriptor(self):
+        """Тест дескрипторных методов."""
+
+        decorator = LoggerDecorator()
+
+        class TestClass:
+            method = decorator
+
+        obj = TestClass()
+        # Вызов через объект должен работать
+        bound = obj.method
+        assert bound is not None
+
+    def test_decorator_repr_without_func(self):
+        """Тест __repr__ когда func не задана."""
+
+        decorator = LoggerDecorator()
+        repr_str = repr(decorator)
+
+        assert "LoggerDecorator" in repr_str
+        assert "func=None" in repr_str or "None" in repr_str
+
+    def test_decorator_stats(self):
+        """Тест статистики вызовов."""
+
+        @log()
+        def f():
+            return 42
+
+        f()
+        stats = f.__logger_decorator__.get_stats()
+        assert stats['call_count'] == 1
+
+        f.__logger_decorator__.reset_stats()
+        stats = f.__logger_decorator__.get_stats()
+        assert stats['call_count'] == 0
+
+    def test_decorator_getset_descriptor_class_access(self):
+        """Тест доступа к дескриптору через класс."""
+
+        decorator = log()
+
+        class Test:
+            method = decorator
+
+        # Доступ через класс
+        bound = Test.method
+        assert bound is not None

@@ -125,7 +125,7 @@ def complex_operation(self, data):
 
 ---
 
-## <a name="структура-проекта"></a>Структура проекта spion.<span style="float:right;"><a href="#spion">⬆️х</a></span>
+## <a name="структура-проекта"></a>Структура проекта spion.<span style="float:right;"><a href="#spion">⬆️</a></span>
 
 ```
 spion/

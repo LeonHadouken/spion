@@ -63,7 +63,7 @@ pip install git+https://github.com/yourname/spion.git
 
 ---
 
-## <a name="для-тех-кто-ценит-простоту"></a>Для тех, кто ценит простоту spion.<span style="float:right;"><a href="#spion">⬆️ Наверх</a></span>
+## <a name="для-тех-кто-ценит-простоту"></a>Для тех, кто ценит простоту spion.<span style="float:right;"><a href="#spion">⬆️</a></span>
 ```python
 from spion import log
 
@@ -79,7 +79,7 @@ hello()
 
 ---
 
-## <a name="для-тех-кто-не-упускает-деталей"></a>Для тех, кто не упускает деталей spion.<span style="float:right;"><a href="#spion">⬆️ Наверх</a></span>
+## <a name="для-тех-кто-не-упускает-деталей"></a>Для тех, кто не упускает деталей spion.<span style="float:right;"><a href="#spion">⬆️</a></span>
 
 А когда простого лога мало — Spion достаёт тяжёлую артиллерию:
 
@@ -107,7 +107,7 @@ def complex_operation(self, data):
 | 🎭 | Всё сразу | комбинация | `@spy()` | Всё вышеперечисленное |
 ---
 
-## <a name="многоликий-spion"></a>Многоликий Spion spion.<span style="float:right;"><a href="#spion">⬆️ Наверх</a></span>
+## <a name="многоликий-spion"></a>Многоликий Spion spion.<span style="float:right;"><a href="#spion">⬆️</a></span>
 
 | Уровень | Декоратор | Что внутри                    |
 |---------|-----------|-------------------------------|
@@ -125,7 +125,7 @@ def complex_operation(self, data):
 
 ---
 
-## <a name="структура-проекта"></a>Структура проекта spion.<span style="float:right;"><a href="#spion">⬆️ Наверх</a></span>
+## <a name="структура-проекта"></a>Структура проекта spion.<span style="float:right;"><a href="#spion">⬆️х</a></span>
 
 ```
 spion/
@@ -174,7 +174,7 @@ tests/
 
 ---
 
-## <a name="тестирование"></a>Тестирование <span style="float:right;"><a href="#spion">⬆️ Наверх</a></span>
+## <a name="тестирование"></a>Тестирование <span style="float:right;"><a href="#spion">⬆️</a></span>
 Spion имеет **полное тестовое покрытие** — **172 теста**, которые проверяют каждый уголок библиотеки.
 
 👉 **[Подробный отчёт о тестировании](TEST_LOG.md)**
@@ -317,7 +317,7 @@ jobs:
 
 ---
 
-## <a name="конфигурация"></a>⚙️ Конфигурация — настрой под себя.<span style="float:right;"><a href="#spion">⬆️ Наверх</a></span>
+## <a name="конфигурация"></a>⚙️ Конфигурация — настрой под себя.<span style="float:right;"><a href="#spion">⬆️</a></span>
 
 Spion даёт полный контроль над тем, **что**, **когда** и **как** логировать.
 
@@ -550,7 +550,7 @@ LoggingConfig.load()
 
 ---
 
-## <a name="полное-руководство"></a>Полное руководство spion.<span style="float:right;"><a href="#spion">⬆️ Наверх</a></span>
+## <a name="полное-руководство"></a>Полное руководство spion.<span style="float:right;"><a href="#spion">⬆️</a></span>
 
 **[GUIDE.md](GUIDE.md)** — это не документация к библиотеке. Это **тренажёр по чтению и отладке кода**. 60+ живых примеров, которые показывают:
 
@@ -565,7 +565,7 @@ LoggingConfig.load()
 
 ---
 
-## <a name="синтаксический-сахар"></a>🍬 Синтаксический сахар — пиши код чище spion.<span style="float:right;"><a href="#spion">⬆️ Наверх</a></span>
+## <a name="синтаксический-сахар"></a>🍬 Синтаксический сахар — пиши код чище spion.<span style="float:right;"><a href="#spion">⬆️</a></span>
 
 > Декораторы — это круто, но иногда хочется, чтобы код читался как естественный язык.  
 > **Spion** даёт тебе синтаксический сахар для самых частых сценариев.
@@ -828,7 +828,7 @@ def poll_api(): ...
 
 ---
 
-## <a name="дорожная-карта"></a>🗺️ Дорожная карта — что дальше? spion.<span style="float:right;"><a href="#spion">⬆️ Наверх</a></span>
+## <a name="дорожная-карта"></a>🗺️ Дорожная карта — что дальше? spion.<span style="float:right;"><a href="#spion">⬆️</a></span>
 
 > **Spion** постоянно развивается. Вот что мы планируем добавить в ближайших релизах:
 
@@ -977,7 +977,7 @@ def predict(model, input):
 - [ ] Визуализация (flame graphs, timelines)
 - [ ] AI/ML (тренировка, инференс)
 
-> 👉 **Голосуй в issues!** Самые востребованные фичи будут реализованы в первую очередь.
+> 👉 [**Голосуй в issues!**](https://github.com/leonhadouken/spion/issues) Самые востребованные фичи будут реализованы в первую очередь.
 
 ---
 
@@ -985,7 +985,7 @@ def predict(model, input):
 
 ---
 
-## <a name="требования"></a>Требования spion.<span style="float:right;"><a href="#spion">⬆️ Наверх</a></span>
+## <a name="требования"></a>Требования spion.<span style="float:right;"><a href="#spion">⬆️</a></span>
 - Python 3.7+
 - Любовь к чистому коду 💙
 

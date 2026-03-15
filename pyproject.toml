@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spion"
+version = "0.1.0" 
+  { name="Ivan Shaikov", email="твой-email@leonhadouken@gmail.com" }, # Укажи свой email
+]
+description = "sugar loggin' — Видит всё, не мешает ничему."
+readme = "README.md"
+requires-python = ">=3.7"
+license-files = ["LICENSE"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Logging",
+]
+
+[project.urls]
+Homepage = "https://github.com/LeonHadouken/spion"
+Repository = "https://github.com/LeonHadouken/spion.git"
+Issues = "https://github.com/LeonHadouken/spion/issues"
+
+# Эта секция говорит setuptools, где искать код
+[tool.setuptools.packages.find]
+where = ["."]  # Ищем пакеты в текущей директории
+include = ["spion*"] # Включаем все, что начинается с "spion"

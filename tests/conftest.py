@@ -1,21 +1,26 @@
+# tests/conftest.py (обновленный)
 """
 Фикстуры для тестов spion.
 """
 
 import pytest
-from io import StringIO
-import sys
-from contextlib import contextmanager
-from typing import Generator, List
+import re
+from typing import Generator
 
-from debug.config import configure, LogLevel
-from debug.filters import reset_filter
-from debug.utils import log_message
+from spion.config import configure, LogLevel
+from spion.decorators.core.filtering import reset_filter
+
+
+def clean_ansi(text: str) -> str:
+    """Удаляет ANSI коды из строки."""
+    if not text:
+        return text
+    return re.sub(r'\x1b\[[0-9;]*m', '', text)
 
 
 @pytest.fixture(autouse=True)
-def reset_logging_config():
-    """Сбрасываем конфигурацию логирования перед каждым тестом."""
+def setup_logging():
+    """Настраиваем логирование для всех тестов."""
     configure(
         enabled=True,
         min_level=LogLevel.DEBUG,
@@ -24,34 +29,10 @@ def reset_logging_config():
     )
     reset_filter()
     yield
+    # Не восстанавливаем конфигурацию
 
 
-@contextmanager
-def capture_logs() -> Generator[StringIO, None, None]:
-    """
-    Контекстный менеджер для захвата логов.
-
-    Example:
-        with capture_logs() as output:
-            log_message(LogLevel.INFO, "test")
-            assert "test" in output.getvalue()
-    """
-    old_stdout = sys.stdout
-    string_io = StringIO()
-    sys.stdout = string_io
-    try:
-        yield string_io
-    finally:
-        sys.stdout = old_stdout
-
-
-@pytest.fixture
-def captured_logs() -> Generator[StringIO, None, None]:
-    """Фикстура для захвата логов."""
-    with capture_logs() as output:
-        yield output
-
-
+# Вспомогательные классы для тестов
 class SampleClass:
     """Простой класс для тестов."""
 

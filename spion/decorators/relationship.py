@@ -1,37 +1,19 @@
-# debug/decorators/relationship.py
-
+# spion/decorators/relationship.py (исправленный)
 """
 Декоратор для логирования связей между классами.
-Анализирует иерархию классов, зависимости и типы аргументов.
 """
 
-from typing import Callable, Any, Dict, Optional, List
+from typing import Callable, Any
 import inspect
 
-from debug.config import LogLevel
-from debug.decorators.base import LoggerDecorator
-from debug.utils import log_message, get_class_hierarchy, get_object_dependencies
+from ..config import LogLevel
+from .base.decorator import LoggerDecorator
+from .core.utils import log_message, get_class_hierarchy, get_object_dependencies
 
 
 class RelationshipDecorator(LoggerDecorator):
     """
     Логирование связей между классами, иерархии и зависимостей.
-
-    Анализирует:
-    - Типы аргументов и их соответствие ожидаемым типам
-    - Иерархию наследования классов
-    - Зависимости объектов (композиция/агрегация)
-
-    Attributes:
-        show_hierarchy (bool): Показывать иерархию классов
-        show_dependencies (bool): Показывать зависимости
-        show_types (bool): Показывать типы аргументов
-        analyze_return (bool): Анализировать тип возвращаемого значения
-
-    Example:
-        >>> @RelationshipDecorator(show_hierarchy=True, show_dependencies=True)
-        ... def process_user(user, db):
-        ...     return user.save(db)
     """
 
     def __init__(self, level: str = LogLevel.DEBUG,
@@ -41,18 +23,6 @@ class RelationshipDecorator(LoggerDecorator):
                  analyze_return: bool = True):
         """
         Инициализация декоратора отношений.
-
-        Args:
-            level: Уровень логирования
-            show_hierarchy: Показывать иерархию классов
-            show_dependencies: Показывать зависимости объектов
-            show_types: Показывать типы аргументов
-            analyze_return: Анализировать тип возвращаемого значения
-
-        Example:
-            >>> @RelationshipDecorator(show_hierarchy=True, show_dependencies=False)
-            ... def analyze(obj):
-            ...     return obj.value
         """
         super().__init__(level)
         self.show_hierarchy = show_hierarchy
@@ -65,53 +35,38 @@ class RelationshipDecorator(LoggerDecorator):
         return "relationship"
 
     def _before(self, func: Callable, args: tuple, kwargs: dict,
-                context: Dict[str, Any]) -> None:
+                context, signature: str) -> None:
         """
         Логировать информацию о связях до вызова функции.
-
-        Args:
-            func: Декорируемая функция
-            args: Позиционные аргументы
-            kwargs: Именованные аргументы
-            context: Контекст вызова
         """
-        log_message(self.level, f"[🔗] {self.signature}", self.timestamp)
+        log_message(self.level, f"[🔗] {signature}", context.timestamp_str)
 
         # Логируем типы аргументов
         if self.show_types:
-            self._log_arguments(func, args, kwargs)
+            self._log_arguments(func, args, kwargs, context)
 
         # Анализируем первый аргумент (обычно self или основной объект)
         if args and hasattr(args[0], '__class__'):
             if self.show_hierarchy:
-                self._log_hierarchy(args[0])
+                self._log_hierarchy(args[0], context)
             if self.show_dependencies:
-                self._log_dependencies(args[0])
+                self._log_dependencies(args[0], context)
 
         # Анализируем остальные объекты в аргументах
-        self._analyze_object_arguments(func, args, kwargs)
+        self._analyze_object_arguments(args, kwargs, context)
 
-    def _after(self, result: Any, context: Dict[str, Any]) -> None:
+    def _after(self, result: Any, context, signature: str) -> None:
         """
         Логировать тип результата.
-
-        Args:
-            result: Результат функции
-            context: Контекст вызова
         """
         if not self.analyze_return or result is None:
             return
 
-        self._log_return_type(result)
+        self._log_return_type(result, context)
 
-    def _log_arguments(self, func: Callable, args: tuple, kwargs: dict) -> None:
+    def _log_arguments(self, func: Callable, args: tuple, kwargs: dict, context) -> None:
         """
         Логировать типы аргументов с подробным анализом.
-
-        Args:
-            func: Функция
-            args: Позиционные аргументы
-            kwargs: Именованные аргументы
         """
         try:
             sig = inspect.signature(func)
@@ -123,25 +78,18 @@ class RelationshipDecorator(LoggerDecorator):
                     continue
 
                 analysis = self._analyze_value(name, value)
-                log_message(self.level, analysis, self.timestamp)
+                log_message(self.level, analysis, context.timestamp_str)
 
         except Exception as e:
             log_message(
                 LogLevel.DEBUG,
                 f"  ⚠ Ошибка анализа аргументов: {e}",
-                self.timestamp
+                context.timestamp_str
             )
 
     def _analyze_value(self, name: str, value: Any) -> str:
         """
         Анализировать значение и вернуть строку с информацией.
-
-        Args:
-            name: Имя аргумента
-            value: Значение
-
-        Returns:
-            str: Отформатированная информация
         """
         value_type = type(value).__name__
         value_class = value.__class__.__name__ if hasattr(value, '__class__') else None
@@ -168,12 +116,9 @@ class RelationshipDecorator(LoggerDecorator):
 
         return msg
 
-    def _log_hierarchy(self, instance: Any) -> None:
+    def _log_hierarchy(self, instance: Any, context) -> None:
         """
         Логировать иерархию классов объекта.
-
-        Args:
-            instance: Объект для анализа
         """
         hierarchy = get_class_hierarchy(instance)
 
@@ -182,15 +127,12 @@ class RelationshipDecorator(LoggerDecorator):
             log_message(
                 self.level,
                 f"  📊 Иерархия: {hierarchy_str}",
-                self.timestamp
+                context.timestamp_str
             )
 
-    def _log_dependencies(self, instance: Any) -> None:
+    def _log_dependencies(self, instance: Any, context) -> None:
         """
         Логировать зависимости объекта.
-
-        Args:
-            instance: Объект для анализа
         """
         deps = get_object_dependencies(instance)
 
@@ -199,18 +141,12 @@ class RelationshipDecorator(LoggerDecorator):
             log_message(
                 self.level,
                 f"  🔗 Зависимости: {deps_str}",
-                self.timestamp
+                context.timestamp_str
             )
 
-    def _analyze_object_arguments(self, func: Callable, args: tuple,
-                                  kwargs: dict) -> None:
+    def _analyze_object_arguments(self, args: tuple, kwargs: dict, context) -> None:
         """
         Анализировать объекты в аргументах на предмет зависимостей.
-
-        Args:
-            func: Функция
-            args: Позиционные аргументы
-            kwargs: Именованные аргументы
         """
         if not self.show_dependencies:
             return
@@ -224,7 +160,7 @@ class RelationshipDecorator(LoggerDecorator):
                     log_message(
                         self.level,
                         f"  🔗 Аргумент[{i}] зависимости: {deps_str}",
-                        self.timestamp
+                        context.timestamp_str
                     )
 
         for name, value in kwargs.items():
@@ -235,15 +171,12 @@ class RelationshipDecorator(LoggerDecorator):
                     log_message(
                         self.level,
                         f"  🔗 {name} зависимости: {deps_str}",
-                        self.timestamp
+                        context.timestamp_str
                     )
 
-    def _log_return_type(self, result: Any) -> None:
+    def _log_return_type(self, result: Any, context) -> None:
         """
         Логировать тип возвращаемого значения.
-
-        Args:
-            result: Результат функции
         """
         result_type = type(result).__name__
         result_class = result.__class__.__name__ if hasattr(result, '__class__') else None
@@ -260,7 +193,7 @@ class RelationshipDecorator(LoggerDecorator):
             except:
                 pass
 
-        log_message(self.level, msg, self.timestamp)
+        log_message(self.level, msg, context.timestamp_str)
 
 
 def log_class_relationship(level: str = LogLevel.DEBUG,
@@ -270,42 +203,6 @@ def log_class_relationship(level: str = LogLevel.DEBUG,
                            analyze_return: bool = True):
     """
     Декоратор для логирования связей между классами.
-
-    Анализирует иерархию классов, зависимости и типы аргументов.
-    Помогает понять структуру кода и отношения между объектами.
-
-    Args:
-        level: Уровень логирования (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-        show_hierarchy: Показывать иерархию классов
-        show_dependencies: Показывать зависимости объектов
-        show_types: Показывать типы аргументов
-        analyze_return: Анализировать тип возвращаемого значения
-
-    Returns:
-        Callable: Декорированная функция
-
-    Example:
-        >>> class User:
-        ...     def __init__(self):
-        ...         self.db = Database()
-        ...         self.cache = Cache()
-        ...
-        >>> @log_class_relationship(show_hierarchy=True, show_dependencies=True)
-        ... def save_user(user, validate=True):
-        ...     user.db.save(user)
-        ...     return True
-        ...
-        >>> save_user(User())
-        [14:30:25.123] 🔵 [🔗] save_user
-          • user: User (экземпляр User) ✓
-          • validate: bool
-          📊 Иерархия: User -> object
-          🔗 Зависимости: db: Database, cache: Cache
-          ↩️ Результат: bool
-
-        >>> @log_class_relationship(show_hierarchy=False, show_types=False)
-        ... def simple_func(x):
-        ...     return x * 2
     """
     return RelationshipDecorator(
         level,
@@ -314,3 +211,31 @@ def log_class_relationship(level: str = LogLevel.DEBUG,
         show_types,
         analyze_return
     )
+
+
+def dig(level: str = LogLevel.DEBUG,
+        show_hierarchy: bool = True,
+        show_dependencies: bool = True,
+        show_types: bool = True,
+        analyze_return: bool = True):
+    """
+    🔍 Копнуть глубже — проанализировать иерархию и связи объекта.
+
+    Пример:
+        @dig()
+        def analyze(obj):
+            pass
+
+        @dig(show_hierarchy=False, show_dependencies=True)
+        def check_deps(obj):
+            pass
+    """
+    return RelationshipDecorator(
+        level,
+        show_hierarchy,
+        show_dependencies,
+        show_types,
+        analyze_return
+    )
+
+spy = log_class_relationship

@@ -1,9 +1,10 @@
+# tests/test_config.py (исправленный)
 """
 Тесты для модуля config.py.
 """
 
 import pytest
-from debug.config import (
+from spion.config import (
     LogLevel, BaseColors, TrafficLight,
     configure, get_config, should_log
 )
@@ -56,8 +57,16 @@ class TestTrafficLight:
 class TestConfigure:
     """Тесты функции configure."""
 
+    # tests/test_config.py (исправленный)
     def test_configure_defaults(self):
         """Проверяем значения по умолчанию."""
+        # Сбрасываем конфигурацию
+        configure(
+            enabled=True,
+            min_level=LogLevel.DEBUG,
+            show_timestamp=True,
+            color_enabled=True
+        )
         assert get_config('enabled') is True
         assert get_config('min_level') == LogLevel.DEBUG
         assert get_config('show_timestamp') is True

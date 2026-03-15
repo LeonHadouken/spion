@@ -55,7 +55,7 @@
 pip install spion
 ```
 
-Или если хочешь самое свежее (разрабская версия):
+Или если хочешь прямо сейчас самое свежее (разрабская версия):
 
 ```bash
 pip install git+https://github.com/yourname/spion.git

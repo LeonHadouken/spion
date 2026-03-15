@@ -184,42 +184,6 @@ tests/
 
 ## <a name="тестирование"></a>Тестирование <span style="float:right;"><a href="#spion">⬆️</a></span>
 
-Spion имеет **почти полное тестовое покрытие** — **99%** кода покрыто тестами. **312 тестов** проверяют каждый уголок библиотеки.
-
-👉 **[Подробный отчёт о тестировании](TEST_LOG.md)**
-
-[![Tests](https://img.shields.io/badge/tests-312%20passed-32CD32?style=for-the-badge&logo=pytest&logoColor=white)](TEST_LOG.md)
-[![Coverage](https://img.shields.io/badge/coverage-99%25-yellow?style=for-the-badge&logo=codecov&logoColor=white)](TEST_LOG.md)
-[![Time](https://img.shields.io/badge/time-7.11s-1E90FF?style=for-the-badge&logo=clockify&logoColor=white)](TEST_LOG.md)
-<img src="https://img.shields.io/badge/Built%20on-OMARCHY-FF6B6B?style=for-the-badge&logo=arch-linux&logoColor=white&labelColor=0A0A0A" alt="Built on Omarchy">
-
-### Запуск тестов
-
-```bash
-# Установка зависимостей для тестирования
-pip install pytest flask
-
-# Запуск всех тестов
-pytest tests/ -v
-
-# Запуск с кратким отчётом
-pytest tests/ --tb=short
-
-# Запуск конкретного файла
-pytest tests/test_decorators/test_chain.py -v
-
-# Запуск конкретного теста
-pytest tests/test_decorators/test_sugar.py::TestTraceSugar::test_trace_basic -v
-```
-
-Отличная работа! Судя по `log.txt`, все **312 тестов успешно пройдены** за 7.11 секунд. Покрытие кода составляет **99%** (8 непокрытых строк из 740).
-
-Теперь нужно обновить `README.md`, чтобы он отражал актуальное состояние проекта. Вот обновленная версия соответствующих разделов:
-
-### Обновленный раздел `README.md` (Тестирование)
-
-Замените текущий раздел "Тестирование" в вашем `README.md` на этот:
-
 ---
 
 ## <a name="тестирование"></a>Тестирование <span style="float:right;"><a href="#spion">⬆️</a></span>
